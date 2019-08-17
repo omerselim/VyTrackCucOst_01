@@ -4,9 +4,7 @@ import com.vytrack.utilities.Pages;
 import cucumber.api.java.en.Then;
 
 public class DashboardStepDefinitions {
-
     Pages pages = new Pages();
-
 
     @Then("user navigates to {string} and {string}")
     public void user_navigates_to_and(String tab, String module) {
