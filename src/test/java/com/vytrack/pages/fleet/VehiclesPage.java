@@ -4,10 +4,7 @@ import com.vytrack.utilities.BasePage;
 import com.vytrack.utilities.BrowserUtils;
 import com.vytrack.utilities.Driver;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.ArrayList;
@@ -26,10 +23,10 @@ public class VehiclesPage extends BasePage {
     @FindBy(css = "input[name='oro_calendar_event_form[title]']")
     public WebElement title;
 
-    @FindBy(css = "body[id='tinymce'] p")
+    @FindBy(css = "body[id='tinymce']")
     public WebElement description;
 
-    public WebElement color = Driver.getDriver().findElement(By.cssSelector("span.color:nth-child("+BrowserUtils.randomInt(12)+")"));
+//    public WebElement color = Driver.getDriver().findElement(By.cssSelector("span.color:nth-child("+BrowserUtils.randomInt(12)+")"));
 
     @FindBy(css = "input#s2id_autogen3")
     public WebElement guests;
@@ -49,12 +46,50 @@ public class VehiclesPage extends BasePage {
     @FindBy(css = "button[class='btn btn-primary']")
     public WebElement eventSave;
 
-    public String randomEventName = BrowserUtils.randomName(10);
+    @FindBy( xpath= "//a[contains(text(),'Activity')]")
+    public WebElement activity;
+
+    @FindBy(xpath = "(//div[@class='message-item message'])[1]")
+    public WebElement firstEvent;
+
+
+    @FindBy(css = "i[class='fa-cog hide-text']")
+    public WebElement grid;
+
+    @FindBy(css = "div[class='column-manager dropdown open']>a")
+    public WebElement gridTable;
+
+    @FindBy(css = "a[class='column-filter-renderable-tab active']")
+    public WebElement All;
+
+    @FindBy(css = "a[xpath='1']")
+    public WebElement sellected;
+
+    @FindBy(css = "a[class^='pull-right']")
+    public WebElement sellectAll;
+
+    @FindBy(css = "label[xpath='1']")
+    public WebElement firstOnTheList;
+
+    @FindBy(css = "button[class^='ui-button ui-corner']")
+    public WebElement xAddEvent;
+
+    @FindBy(css = "span[class='close']")
+    public WebElement xGridSettings;
+
+    @FindBy(css = "tr th:nth-child(1) a.grid-header-cell__link > span.grid-header-cell__label")
+    public WebElement ID;
+
+    @FindBy(css = "tr th:nth-child(2) a.grid-header-cell__link > span.grid-header-cell__label")
+    public WebElement LP;
+
+    public String randomWord1 = BrowserUtils.randomName(10);
+    public String randomWord2 = BrowserUtils.randomName(10);
+    int number;
+    String GridOptions = "tbody.ui-sortable:nth-child(2) tr.renderable:nth-child("+number+") > td.visibility-cell"; //css
 
 //    public String newEvent = "//strong[contains(text(),'"+randomEventName+"')]";
 
-    @FindBy(css = "div[data-layout='separate'] [class='list-item']:nth-child(1)")
-    public WebElement newEvent;
 
 
 
@@ -77,7 +112,30 @@ public class VehiclesPage extends BasePage {
         Driver.getDriver().findElement(By.xpath("//div[contains(text(),'Random User')]")).click();
     }
 
+    public void unsellectGridOptions() {
+        for (int i=3; i<=20; i++ ){
+//            BrowserUtils.waitPlease2(500);
+            JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+            WebElement element = Driver.getDriver().findElement(By.cssSelector("tbody.ui-sortable:nth-child(2) tr.renderable:nth-child("+i+") > td.visibility-cell"));
+            js.executeScript("arguments[0].scrollIntoView();", element);
+            element.click();
+        }
+    }
+    public void clickHidenElement(By by) {
+        WebElement tmpElement=Driver.getDriver().findElement(by);
+        JavascriptExecutor executor=(JavascriptExecutor) Driver.getDriver();
+        executor.executeScript("arguments[0].click();", tmpElement);
+    }
 
+//    public void unsellectGridOptions() {
+//        for (int i=3; i<=20; i++ ){
+////            BrowserUtils.waitPlease2(500);
+//            JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+//            WebElement element = Driver.getDriver().findElement(By.cssSelector("tbody.ui-sortable:nth-child(2) tr.renderable:nth-child("+i+") > td.visibility-cell"));
+//            js.executeScript("arguments[0].scrollIntoView();", element);
+//            element.click();
+//        }
+//    }
 
 
 }
