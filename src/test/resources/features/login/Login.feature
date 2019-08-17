@@ -1,4 +1,4 @@
-@VYT-4121
+@VYT-4121_login
 Feature: Login
   As user I want to login under different roles
 
@@ -7,7 +7,7 @@ Feature: Login
 
   @storemanager
   Scenario: Login as a store manager
-    Then user logs in as a store manager
+    Then user logs in as a "store manager"
     And user verifies that "Dashboard" page name is displayed
 
   @negative
