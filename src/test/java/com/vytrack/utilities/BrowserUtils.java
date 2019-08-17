@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.assertTrue;
-
+////////////////////////////////////
 public class BrowserUtils {
     private static final Logger logger = LogManager.getLogger();
 
@@ -49,8 +49,23 @@ public class BrowserUtils {
             logger.error(e);
             System.out.println(e.getMessage());
         }
-
     }
+    /**
+     * This method will put on pause execution
+     *
+     * @param milSeconds
+     */
+    public static void waitPlease2(int milSeconds) {
+        try {
+            Thread.sleep(milSeconds);
+        } catch (Exception e) {
+            logger.error(e);
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+
 
     /**
      * @param page
@@ -483,9 +498,14 @@ public class BrowserUtils {
     }
 
     public static void waitForsStaleness(By by) {
-        new WebDriverWait(Driver.getDriver(), Integer.valueOf(ConfigurationReader.getProperty("SHORT_WAIT"))).
+        new WebDriverWait(Driver.getDriver(), Integer.parseInt(ConfigurationReader.getProperty("SHORT_WAIT"))).
                 until(ExpectedConditions.stalenessOf(Driver.getDriver().findElement(by)));
     }
+
+
+//============================================================================================
+//    Table
+//--------------------------------------------------------------------------------------------
 
     public static int getCountOfRows(By by){
         return Driver.getDriver().findElements(by).size();
@@ -502,9 +522,9 @@ public class BrowserUtils {
         String choices1 = choices2.toUpperCase();
         int i = 0;
         String name = choices1.charAt( rand.nextInt( choices1.length()))+ "";
-        while ( i<NumOfFnameCharcters ) {
+        while ( i<NumOfFnameCharcters-1 ) {
 
-            name = name + choices2.charAt( rand.nextInt( choices2.length() ) );
+            name += choices2.charAt( rand.nextInt( choices2.length() ) );
             i= i + 1;
         }
         return name;
@@ -520,7 +540,7 @@ public class BrowserUtils {
         String name = choices1.charAt( rand.nextInt( choices1.length()))+ "";
         while ( i<NumOfLnameCharcters -1) {
 
-            name = name + choices2.charAt( rand.nextInt( choices2.length() ) );
+            name +=  choices2.charAt( rand.nextInt( choices2.length() ) );
             i= i + 1;
         }
         return name;
@@ -536,7 +556,7 @@ public class BrowserUtils {
 
         String number1 = choices1.charAt( rand.nextInt( choices1.length()))+ "";
         for (int i=0;  i<numberOfDigit-1; i++) {
-            number1 = number1 + choices2.charAt( rand.nextInt( choices2.length() ) );
+            number1 += choices2.charAt( rand.nextInt( choices2.length() ) );
         }
 
 
@@ -544,7 +564,7 @@ public class BrowserUtils {
 
         String number2="";
         for (int i=0; i<2; i++ ) {
-            number2 = number2+ choices2.charAt( rand.nextInt( choices2.length() ) );
+            number2 += choices2.charAt( rand.nextInt( choices2.length() ) );
         }
         String number = number1+"."+number2;
         return number;
@@ -564,8 +584,29 @@ public class BrowserUtils {
         return max*(rand.nextDouble());
     }
 
+//============================================================================================
+//    Click Hidden Element
+//--------------------------------------------------------------------------------------------
 
+    public void clickHidenElement(By by) {
+        WebElement tmpElement=Driver.getDriver().findElement(by);
+        JavascriptExecutor executor=(JavascriptExecutor) Driver.getDriver();
+        executor.executeScript("arguments[0].click();", tmpElement);
+    }
 
+//============================================================================================
+//    Unsellect-Sellect radio button with scrolling down
+//--------------------------------------------------------------------------------------------
+
+    public void unsellectGridOptions() {
+        for (int i=3; i<=20; i++ ){
+//           BrowserUtils.waitPlease2(500);
+            JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+            WebElement element = Driver.getDriver().findElement(By.cssSelector("tbody.ui-sortable:nth-child(2) tr.renderable:nth-child("+i+") > td.visibility-cell"));
+            js.executeScript("arguments[0].scrollIntoView();", element);
+            element.click();
+        }
+    }
 
 
 }
